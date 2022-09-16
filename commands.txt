@@ -1,0 +1,30 @@
+w <number between 0 and 10>* - holds w for x seconds
+a <number between 0 and 10>* - holds a for x seconds
+s <number between 0 and 10>* - holds s for x seconds
+d <number between 0 and 10>* - holds d for x seconds
+
+stop - releases w, a, s, d
+
+run <number between 0 and 10>* - sprints forward for x seconds
+
+jump   - jumps
+jump w - jumps forward
+sneak  - sneaks for 5 seconds
+
+
+right <number between 0 and 360> - moves mouse right by x degrees
+left  <number between 0 and 360> - moves mouse left by x degrees
+up    <number between 0 and 360> - moves mouse up by x degrees
+down  <number between 0 and 360> - moves mouse down by x degrees
+ 
+
+use   - holds e for 5 seconds
+tab   - presses tab for 0.1 seconds
+call  - presses q for 0.1 seconds
+click - clicks left mouse button
+
+1 - presses 1 for 0.1 seconds
+2 - presses 2 for 0.1 seconds
+3 - presses 3 for 0.1 seconds
+
+*also works with decimal values, use . as the decimal point
