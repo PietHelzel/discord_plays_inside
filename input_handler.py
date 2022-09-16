@@ -5,21 +5,38 @@ import threading
 import keyboard
 
 class InputKey(Enum):
-    RIGHT = auto()
-    LEFT  = auto()
-    UP    = auto()
-    DOWN  = auto()
-    GRAB  = auto()
-    ENTER = auto()
+    W     = auto()
+    A     = auto()
+    S     = auto()
+    D     = auto()
+    E     = auto()
+    Q     = auto()
+    SPACE = auto()
+    CTRL  = auto()
+    TAB   = auto()
+    SHIFT = auto()
+    ONE   = auto()
+    TWO   = auto()
+    THREE = auto()
+    
 
     def to_str(self) -> str:
         match self:
-            case InputKey.RIGHT: return "right arrow"
-            case InputKey.LEFT : return "left arrow"
-            case InputKey.UP   : return "up arrow"
-            case InputKey.DOWN : return "down arrow"
-            case InputKey.GRAB : return "Ctrl"
-            case InputKey.ENTER: return "enter"
+            case InputKey.W : return "w"
+            case InputKey.A : return "a"
+            case InputKey.S : return "s"
+            case InputKey.D : return "d"
+
+            case InputKey.SPACE : return "space bar"
+            case InputKey.SHIFT : return "shift"
+            case InputKey.CTRL  : return "ctrl"
+
+            case InputKey.E     : return "e"
+            case InputKey.Q     : return "q"
+            case InputKey.TAB   : return "tab"
+            case InputKey.ONE   : return "1"
+            case InputKey.TWO   : return "2"
+            case InputKey.THREE : return "3"
 
 class EventKind(Enum):
     PRESS   = auto()
@@ -52,12 +69,10 @@ class InputHandler:
 
     def stop_all(self):
         self.events.clear()
-        self.release(InputKey.RIGHT)
-        self.release(InputKey.LEFT)
-        self.release(InputKey.UP)
-        self.release(InputKey.DOWN)
-        self.release(InputKey.GRAB)
-        self.release(InputKey.ENTER)
+        self.release(InputKey.W)
+        self.release(InputKey.A)
+        self.release(InputKey.S)
+        self.release(InputKey.D)
 
     def run(self):
         threading.Thread(target=self.__run_threaded).start()
