@@ -1,8 +1,9 @@
+from time import sleep, time
 from enum import Enum, auto
+from keyboard import press, release
+from threading import Thread, Lock
 
-import time
-import threading
-import keyboard
+mutex = Lock()
 
 class InputKey(Enum):
     RIGHT = auto()
@@ -42,13 +43,16 @@ class InputHandler:
         self.events = []
 
     def register_event(self, time_offset: float, key: InputKey, event_kind: EventKind):
-        new_time = time.time() + time_offset
+        mutex.acquire()
+        new_time = time() + time_offset
         event = Event(new_time, key, event_kind)
         self.events.append(event)
+        mutex.release()
 
     def register_keypress(self, start_offset: float, duration: float, key: InputKey):
-        self.register_event(start_offset, key, EventKind.PRESS)
-        self.register_event(start_offset + duration, key, EventKind.RELEASE)
+        if len(self.events) < 10:
+            self.register_event(start_offset, key, EventKind.PRESS)
+            self.register_event(start_offset + duration, key, EventKind.RELEASE)
 
     def stop_all(self):
         self.events.clear()
@@ -60,12 +64,12 @@ class InputHandler:
         self.release(InputKey.ENTER)
 
     def run(self):
-        threading.Thread(target=self.__run_threaded).start()
+        Thread(target=self.__run_threaded).start()
 
     def __run_threaded(self):
         while True:
-            current_time = time.time()
-
+            current_time = time()
+            mutex.acquire()
             for index, event in enumerate(self.events):
                 if event.time < current_time:
                     print(str(event))
@@ -73,13 +77,12 @@ class InputHandler:
                         self.press(event.key)
                     elif event.event_kind is EventKind.RELEASE:
                         self.release(event.key)
-
                     self.events.pop(index)
-
-            time.sleep(0.01)
+            mutex.release()
+            sleep(0.01)
 
     def press(self, key: InputKey):
-        keyboard.press(key.to_str())
+        press(key.to_str())
     
     def release(self, key: InputKey):
-        keyboard.release(key.to_str())
+        release(key.to_str())
